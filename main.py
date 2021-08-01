@@ -201,15 +201,15 @@ def matmul_f1__cuda_jit(A, B, C):
     if tx >= 3 or ty >= 3:
         return
 
-    sA = cuda.shared.array(shape=tpb, dtype=nb.float32)
-    sB = cuda.shared.array(shape=tpb, dtype=nb.float32)
-    sA[tx, ty] = A[bx, tx, ty]
-    sB[tx, ty] = B[bx, tx, ty]
-    C[bx, tx, ty] = sA[tx, 0] * sB[0, ty] + sA[tx, 1] * sB[1, ty] + sA[tx, 2] * sB[2, ty]
+    # sA = cuda.shared.array(shape=tpb, dtype=nb.float32)
+    # sB = cuda.shared.array(shape=tpb, dtype=nb.float32)
+    # sA[tx, ty] = A[bx, tx, ty]
+    # sB[tx, ty] = B[bx, tx, ty]
+    # C[bx, tx, ty] = sA[tx, 0] * sB[0, ty] + sA[tx, 1] * sB[1, ty] + sA[tx, 2] * sB[2, ty]
 
-    # A_mx33 = A[bx]
-    # B_mx33 = B[bx]
-    # C[bx, tx, ty] = A_mx33[tx, 0] * B_mx33[0, ty] + A_mx33[tx, 1] * B_mx33[1, ty] + A_mx33[tx, 2] * B_mx33[2, ty]
+    A_mx33 = A[bx]
+    B_mx33 = B[bx]
+    C[bx, tx, ty] = A_mx33[tx, 0] * B_mx33[0, ty] + A_mx33[tx, 1] * B_mx33[1, ty] + A_mx33[tx, 2] * B_mx33[2, ty]
 
 
 
